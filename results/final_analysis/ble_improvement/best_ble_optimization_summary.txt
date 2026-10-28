@@ -1,0 +1,18 @@
+BLE Optimisation Summary
+
+Previous BLE best result: 68.86% using KNN.
+Best optimised BLE result: 70.07% using SVM_Tuned.
+Best dataset version: Enhanced RSSI Features.
+Cross-validation accuracy: 69.24%.
+
+Improvement over previous BLE result: 1.21 percentage points.
+Remaining gap compared with best Wi-Fi result of 95.12%: 25.05 percentage points.
+
+Macro precision: 0.6956
+Macro recall: 0.6967
+Macro F1-score: 0.6961
+Weighted F1-score: 0.7011
+Balanced accuracy: 0.6967
+
+Interpretation:
+This optimisation stage used RSSI feature engineering, outlier filtering and tuned machine learning models to investigate whether the BLE result could be improved. If BLE remains lower than Wi-Fi, this supports the final dissertation finding that BLE classification is more challenging because RSSI values are unstable and sensitive to environmental variation.

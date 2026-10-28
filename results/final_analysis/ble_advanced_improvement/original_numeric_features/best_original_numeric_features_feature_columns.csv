@@ -1,0 +1,11 @@
+feature
+packet_count
+avg_rssi
+std_rssi
+min_rssi
+max_rssi
+rssi_range
+duration_ms
+avg_interval_ms
+std_interval_ms
+packet_rate

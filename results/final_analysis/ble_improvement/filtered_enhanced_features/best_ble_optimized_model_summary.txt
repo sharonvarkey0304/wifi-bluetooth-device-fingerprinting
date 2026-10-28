@@ -1,0 +1,4 @@
+Best BLE optimized model: extra_trees_tuned
+Best BLE optimized accuracy: 0.7176
+Best BLE optimized accuracy percent: 71.76%
+Dataset version: filtered_enhanced_features

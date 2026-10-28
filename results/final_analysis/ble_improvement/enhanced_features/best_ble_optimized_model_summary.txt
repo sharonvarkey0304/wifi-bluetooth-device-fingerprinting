@@ -1,0 +1,4 @@
+Best BLE optimized model: svm_tuned
+Best BLE optimized accuracy: 0.7018
+Best BLE optimized accuracy percent: 70.18%
+Dataset version: enhanced_features

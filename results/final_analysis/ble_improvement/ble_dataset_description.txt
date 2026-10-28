@@ -1,0 +1,4 @@
+Rows: 1136
+Columns: 15
+Target column: environment
+Numeric feature columns: 12

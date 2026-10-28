@@ -1,0 +1,7 @@
+BLE Classification Improvement Discussion
+
+The original BLE behaviour classification achieved 68.86% accuracy using the KNN algorithm. Because this was lower than the Wi-Fi device-type classification accuracy of 95.12%, an optimisation stage was added to investigate whether BLE performance could be improved.
+
+The optimisation stage included RSSI-based feature engineering, RSSI outlier filtering and hyperparameter tuning for KNN, SVM, Random Forest, Extra Trees and Gradient Boosting models. The best optimised BLE result achieved 70.07% accuracy using SVM_Tuned on the Enhanced RSSI Features dataset version. This represents a change of 1.21 percentage points compared with the original BLE result.
+
+Even after optimisation, the BLE result should be critically compared with the Wi-Fi result. BLE RSSI values may fluctuate due to distance, obstacles, interference, device orientation and environmental conditions. These variations make BLE behavioural features less stable and less separable than the Wi-Fi features used in this project. Therefore, the lower BLE performance is treated as an important finding and limitation rather than a failure of the project.

@@ -1,0 +1,4 @@
+experiment,best_model,accuracy,description
+Wi-Fi Device ID Classification,Random Forest,0.9024,Classifies individual labelled Wi-Fi devices
+Wi-Fi Device Type Classification,SVM / KNN,0.9512,Classifies device type such as Phone or Tablet
+BLE Behaviour Classification,KNN,0.6886,Classifies BLE signal behaviour/environment

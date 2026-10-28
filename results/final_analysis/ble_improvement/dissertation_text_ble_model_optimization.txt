@@ -1,0 +1,7 @@
+BLE Classification Improvement Discussion
+
+The initial BLE behaviour classification achieved a highest accuracy of 68.86% using the KNN algorithm. In response to this limitation, an optimisation stage was added to improve and further evaluate BLE classification performance. This stage included RSSI-based feature engineering, RSSI outlier filtering and hyperparameter tuning of KNN, SVM, Random Forest and Extra Trees models.
+
+The best optimised BLE result was obtained using SVM_RBF_Tuned on the Enhanced Features dataset version, achieving an accuracy of 70.42%. This result was compared with the previous BLE result of 68.86% and with the stronger Wi-Fi result of 95.12%.
+
+The BLE accuracy remains an important finding because it shows that BLE fingerprinting is possible but more challenging than Wi-Fi fingerprinting. BLE signal features, especially RSSI, may fluctuate due to distance, obstacles, device orientation, interference and surrounding environmental conditions. These fluctuations can reduce the stability of the behavioural features used by machine learning models. Therefore, the lower BLE performance is not treated as a project failure; instead, it is discussed as an important limitation and comparative result of the project.

@@ -1,0 +1,18 @@
+BLE Model Optimisation Summary
+
+Best dataset version: Enhanced Features
+Best model: SVM_RBF_Tuned
+Best test accuracy: 70.42%
+Best cross-validation accuracy: 69.7%
+
+Macro precision: 0.6994
+Macro recall: 0.7008
+Macro F1-score: 0.6999
+Weighted F1-score: 0.7047
+
+Interpretation:
+The BLE classification result was tested using RSSI feature engineering,
+outlier filtering and hyperparameter tuning. If the final accuracy remains
+lower than the Wi-Fi result, this supports the dissertation finding that BLE
+behaviour classification is more challenging than Wi-Fi classification due to
+RSSI instability, environmental variation and weaker feature separability.

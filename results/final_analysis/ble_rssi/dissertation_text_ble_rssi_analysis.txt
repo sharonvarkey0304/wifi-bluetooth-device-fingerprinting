@@ -1,0 +1,5 @@
+BLE RSSI Analysis - Dissertation Text
+
+To investigate the lower BLE classification performance, the RSSI-based features were analysed instead of assuming that signal instability was the cause. The analysis calculated the mean, standard deviation, minimum, maximum and range of RSSI values from the BLE feature dataset. The RSSI distribution was also visualised using histogram and boxplot graphs.
+
+A higher RSSI standard deviation or wider RSSI range indicates that the received signal strength fluctuates considerably across captures. This may reduce the consistency of RSSI-based features and can contribute to lower BLE classification accuracy compared with the Wi-Fi models. Where grouped labels such as LOS and NLOS are available, the grouped RSSI statistics can be used to show whether specific environments produce more unstable RSSI values.

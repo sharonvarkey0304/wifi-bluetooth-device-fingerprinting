@@ -1,0 +1,27 @@
+﻿# Python temporary files
+__pycache__/
+*.py[cod]
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# PyCharm and VS Code settings
+.idea/
+.vscode/
+
+# Passwords and secrets
+.env
+.env.*
+!.env.example
+
+# Raw datasets and wireless captures
+data/raw/
+*.pcap
+*.pcapng
+
+# Logs and temporary files
+*.log
+.pytest_cache/
+.mypy_cache/

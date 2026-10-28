@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Wi-Fi and Bluetooth Fingerprinting Dashboard</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Segoe UI, Arial, sans-serif;
+            background: radial-gradient(circle at top, #1e3a8a, #020617 45%);
+            color: #e5e7eb;
+        }
+
+        header {
+            padding: 30px;
+            background: rgba(2, 6, 23, 0.9);
+            border-bottom: 1px solid #38bdf8;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 34px;
+            color: #38bdf8;
+        }
+
+        header p {
+            margin-top: 8px;
+            color: #cbd5e1;
+        }
+
+        .container {
+            padding: 25px;
+        }
+
+        .status-bar {
+            background: linear-gradient(90deg, #065f46, #0f766e);
+            padding: 14px 18px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            font-weight: bold;
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.25);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: rgba(15, 23, 42, 0.88);
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            border-radius: 18px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.12);
+        }
+
+        .card h3 {
+            margin: 0 0 10px 0;
+            color: #93c5fd;
+            font-size: 15px;
+        }
+
+        .number {
+            font-size: 34px;
+            color: #22c55e;
+            font-weight: bold;
+        }
+
+        .section {
+            background: rgba(15, 23, 42, 0.88);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-radius: 18px;
+            padding: 22px;
+            margin-bottom: 28px;
+            box-shadow: 0 0 18px rgba(15, 23, 42, 0.8);
+        }
+
+        .section h2 {
+            color: #38bdf8;
+            margin-top: 0;
+        }
+
+        .section h3 {
+            color: #93c5fd;
+        }
+
+        .live-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+        }
+
+        .live-title {
+            color: #facc15;
+            font-size: 20px;
+            margin-bottom: 12px;
+        }
+
+        .prediction {
+            font-size: 34px;
+            font-weight: bold;
+            color: #22c55e;
+            margin: 12px 0;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid #334155;
+            padding: 9px 0;
+        }
+
+        .label {
+            color: #94a3b8;
+        }
+
+        .value {
+            color: #e5e7eb;
+            font-weight: 600;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            overflow: hidden;
+            border-radius: 12px;
+            margin-bottom: 18px;
+        }
+
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #334155;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        th {
+            background: #020617;
+            color: #38bdf8;
+        }
+
+        .badge {
+            padding: 6px 12px;
+            background: #2563eb;
+            color: white;
+            border-radius: 999px;
+            font-size: 13px;
+        }
+
+        .graphs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+        }
+
+        .graph-box {
+            background: #020617;
+            border-radius: 14px;
+            padding: 15px;
+            border: 1px solid rgba(56, 189, 248, 0.2);
+        }
+
+        .graph-box h3 {
+            color: #93c5fd;
+            font-size: 15px;
+            word-break: break-word;
+        }
+
+        img {
+            width: 100%;
+            background: white;
+            padding: 10px;
+            border-radius: 12px;
+        }
+
+        .note {
+            color: #facc15;
+            font-size: 14px;
+            margin-top: 20px;
+        }
+
+        .small-note {
+            color: #cbd5e1;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        pre {
+            background: #020617;
+            color: #e5e7eb;
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            padding: 15px;
+            border-radius: 12px;
+            white-space: pre-wrap;
+            line-height: 1.5;
+        }
+
+        @media(max-width: 1000px) {
+            .grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .live-grid, .graphs {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>Wi-Fi and Bluetooth Device Fingerprinting</h1>
+    <p>Machine Learning and Deep Learning Cybersecurity Dashboard</p>
+</header>
+
+<div class="container">
+
+    <div class="status-bar">
+        System running on live simulation mode — data updates every 2 seconds
+    </div>
+
+    <div class="grid">
+        <div class="card">
+            <h3>Wi-Fi Records</h3>
+            <div class="number">{{ wifi_stats.records }}</div>
+        </div>
+
+        <div class="card">
+            <h3>Wi-Fi Devices Found</h3>
+            <div class="number">{{ wifi_stats.devices }}</div>
+        </div>
+
+        <div class="card">
+            <h3>Phones</h3>
+            <div class="number">{{ wifi_stats.phones }}</div>
+        </div>
+
+        <div class="card">
+            <h3>Tablets</h3>
+            <div class="number">{{ wifi_stats.tablets }}</div>
+        </div>
+
+        <div class="card">
+            <h3>BLE Records</h3>
+            <div class="number">{{ ble_stats.records }}</div>
+        </div>
+
+        <div class="card">
+            <h3>BLE Files</h3>
+            <div class="number">{{ ble_stats.files }}</div>
+        </div>
+
+        <div class="card">
+            <h3>BLE Environments</h3>
+            <div class="number">{{ ble_stats.environments }}</div>
+        </div>
+
+        <div class="card">
+            <h3>Project Mode</h3>
+            <div class="number">LIVE</div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Live Detection Panel</h2>
+
+        <div class="live-grid">
+
+            <div class="card">
+                <div class="live-title">Live Wi-Fi Detection</div>
+                <div class="prediction" id="wifi_prediction">Waiting...</div>
+
+                <div class="row"><span class="label">Processed</span><span class="value" id="wifi_processed">-</span></div>
+                <div class="row"><span class="label">Device ID</span><span class="value" id="wifi_device_id">-</span></div>
+                <div class="row"><span class="label">Vendor / Model</span><span class="value" id="wifi_model">-</span></div>
+                <div class="row"><span class="label">Actual Type</span><span class="value" id="wifi_actual">-</span></div>
+                <div class="row"><span class="label">Packet Count</span><span class="value" id="wifi_packet_count">-</span></div>
+                <div class="row"><span class="label">Packet Rate</span><span class="value" id="wifi_packet_rate">-</span></div>
+                <div class="row"><span class="label">Average RSSI</span><span class="value" id="wifi_rssi">-</span></div>
+            </div>
+
+            <div class="card">
+                <div class="live-title">Live Bluetooth/BLE Detection</div>
+                <div class="prediction" id="ble_prediction">Waiting...</div>
+
+                <div class="row"><span class="label">Processed</span><span class="value" id="ble_processed">-</span></div>
+                <div class="row"><span class="label">Source File</span><span class="value" id="ble_file">-</span></div>
+                <div class="row"><span class="label">Actual Environment</span><span class="value" id="ble_actual">-</span></div>
+                <div class="row"><span class="label">Packet Count</span><span class="value" id="ble_packet_count">-</span></div>
+                <div class="row"><span class="label">Average RSSI</span><span class="value" id="ble_rssi">-</span></div>
+                <div class="row"><span class="label">RSSI Range</span><span class="value" id="ble_rssi_range">-</span></div>
+            </div>
+
+        </div>
+
+        <p class="note">
+            Note: This dashboard uses processed dataset rows as a live simulation. Real live capture requires authorised devices, suitable adapters, and supervisor/ethics approval.
+        </p>
+    </div>
+
+    <div class="section">
+        <h2>Final Project Results Summary</h2>
+
+        <table>
+            <tr>
+                <th>Experiment</th>
+                <th>Best Model</th>
+                <th>Accuracy</th>
+                <th>Description</th>
+            </tr>
+
+            {% for row in final_summary %}
+            <tr>
+                <td>{{ row.experiment }}</td>
+                <td><span class="badge">{{ row.best_model }}</span></td>
+                <td>{{ row.accuracy_percent }}%</td>
+                <td>{{ row.description }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <div class="section">
+        <h2>Wi-Fi Device Type Classification</h2>
+
+        <table>
+            <tr>
+                <th>Model</th>
+                <th>Accuracy</th>
+                <th>Precision</th>
+                <th>Recall</th>
+                <th>F1-score</th>
+            </tr>
+
+            {% for row in type_results %}
+            <tr>
+                <td>{{ row.model }}</td>
+                <td>{{ row.accuracy_percent }}%</td>
+                <td>{{ row.precision }}</td>
+                <td>{{ row.recall }}</td>
+                <td>{{ row.f1_score }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <div class="section">
+        <h2>Wi-Fi Per-Class Evaluation</h2>
+        <p class="small-note">
+            This section addresses the phone-vs-tablet imbalance by reporting class-specific precision, recall and F1-score.
+        </p>
+
+        {% if wifi_class_distribution %}
+        <h3>Class Distribution</h3>
+        <table>
+            <tr>
+                <th>Class</th>
+                <th>Count</th>
+            </tr>
+            {% for row in wifi_class_distribution %}
+            <tr>
+                <td>{{ row["class"] }}</td>
+                <td>{{ row.count }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% endif %}
+
+        {% if rf_report %}
+        <h3>Random Forest Classification Report</h3>
+        <table>
+            <tr>
+                {% for key in rf_report[0].keys() %}
+                <th>{{ key }}</th>
+                {% endfor %}
+            </tr>
+            {% for row in rf_report %}
+            <tr>
+                {% for value in row.values() %}
+                <td>{{ value }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+        {% endif %}
+
+        {% if svm_report %}
+        <h3>SVM Classification Report</h3>
+        <table>
+            <tr>
+                {% for key in svm_report[0].keys() %}
+                <th>{{ key }}</th>
+                {% endfor %}
+            </tr>
+            {% for row in svm_report %}
+            <tr>
+                {% for value in row.values() %}
+                <td>{{ value }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+        {% endif %}
+
+        {% if knn_report %}
+        <h3>KNN Classification Report</h3>
+        <table>
+            <tr>
+                {% for key in knn_report[0].keys() %}
+                <th>{{ key }}</th>
+                {% endfor %}
+            </tr>
+            {% for row in knn_report %}
+            <tr>
+                {% for value in row.values() %}
+                <td>{{ value }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+        {% endif %}
+    </div>
+
+    <div class="section">
+        <h2>Bluetooth/BLE Classification</h2>
+
+        <table>
+            <tr>
+                <th>Model</th>
+                <th>Accuracy</th>
+                <th>Precision</th>
+                <th>Recall</th>
+                <th>F1-score</th>
+            </tr>
+
+            {% for row in ble_results %}
+            <tr>
+                <td>{{ row.model }}</td>
+                <td>{{ row.accuracy_percent }}%</td>
+                <td>{{ row.precision }}</td>
+                <td>{{ row.recall }}</td>
+                <td>{{ row.f1_score }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <div class="section">
+        <h2>BLE RSSI Analysis</h2>
+        <p class="small-note">
+            This section tests whether BLE RSSI instability may contribute to lower BLE accuracy.
+        </p>
+
+        {% if ble_rssi_summary %}
+        <h3>BLE RSSI Summary</h3>
+        <table>
+            <tr>
+                {% for key in ble_rssi_summary[0].keys() %}
+                <th>{{ key }}</th>
+                {% endfor %}
+            </tr>
+            {% for row in ble_rssi_summary %}
+            <tr>
+                {% for value in row.values() %}
+                <td>{{ value }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+        {% endif %}
+
+        {% if ble_wifi_comparison %}
+        <h3>BLE vs Wi-Fi RSSI Variability Comparison</h3>
+        <table>
+            <tr>
+                {% for key in ble_wifi_comparison[0].keys() %}
+                <th>{{ key }}</th>
+                {% endfor %}
+            </tr>
+            {% for row in ble_wifi_comparison %}
+            <tr>
+                {% for value in row.values() %}
+                <td>{{ value }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+        {% endif %}
+    </div>
+
+    <div class="section">
+        <h2>BLE Model Optimisation Results</h2>
+        <p class="small-note">
+            This section shows the improved BLE experiment using RSSI-based feature engineering, outlier filtering and tuned ML models.
+        </p>
+
+        {% if ble_best_summary %}
+        <h3>Best Optimised BLE Model</h3>
+        <pre>{{ ble_best_summary }}</pre>
+        {% endif %}
+
+        {% if ble_optimization_results %}
+        <h3>Optimised BLE Model Comparison</h3>
+        <table>
+            <tr>
+                <th>Dataset Version</th>
+                <th>Model</th>
+                <th>Accuracy</th>
+                <th>Macro Precision</th>
+                <th>Macro Recall</th>
+                <th>Macro F1</th>
+                <th>Weighted F1</th>
+            </tr>
+
+            {% for row in ble_optimization_results %}
+            <tr>
+                <td>{{ row.dataset_version }}</td>
+                <td><span class="badge">{{ row.model }}</span></td>
+                <td>{{ row.accuracy_percent }}%</td>
+                <td>{{ row.macro_precision }}</td>
+                <td>{{ row.macro_recall }}</td>
+                <td>{{ row.macro_f1 }}</td>
+                <td>{{ row.weighted_f1 }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+        <p class="note">
+            BLE optimisation results are not available yet. Run: python scripts\ble_model_optimization.py
+        </p>
+        {% endif %}
+    </div>
+
+    <div class="section">
+        <h2>Top Wi-Fi Fingerprinting Features</h2>
+
+        <table>
+            <tr>
+                <th>Feature</th>
+                <th>Importance</th>
+            </tr>
+
+            {% for row in top_features %}
+            <tr>
+                <td>{{ row.feature }}</td>
+                <td>{{ row.importance }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <div class="section">
+        <h2>Generated Graphs</h2>
+
+        <div class="graphs">
+            {% for graph in graphs %}
+            <div class="graph-box">
+                <h3>{{ graph }}</h3>
+                <img src="/results/{{ graph }}">
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Final Analysis Graphs</h2>
+        <p class="small-note">
+            These include Wi-Fi confusion matrices, BLE RSSI plots and BLE optimisation graphs.
+        </p>
+
+        <div class="graphs">
+            {% for graph in final_analysis_graphs %}
+            <div class="graph-box">
+                <h3>{{ graph }}</h3>
+                <img src="/results/{{ graph }}">
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</div>
+
+<script>
+    async function updateLiveData() {
+        try {
+            const response = await fetch("/api/live");
+            const data = await response.json();
+
+            if (data.wifi) {
+                document.getElementById("wifi_prediction").innerText = data.wifi.predicted;
+                document.getElementById("wifi_processed").innerText = data.wifi.processed + " / " + data.wifi.total;
+                document.getElementById("wifi_device_id").innerText = data.wifi.device_id;
+                document.getElementById("wifi_model").innerText = data.wifi.vendor + " " + data.wifi.model;
+                document.getElementById("wifi_actual").innerText = data.wifi.actual_type;
+                document.getElementById("wifi_packet_count").innerText = data.wifi.packet_count;
+                document.getElementById("wifi_packet_rate").innerText = data.wifi.packet_rate;
+                document.getElementById("wifi_rssi").innerText = data.wifi.avg_rssi + " dBm";
+            }
+
+            if (data.ble) {
+                document.getElementById("ble_prediction").innerText = data.ble.predicted;
+                document.getElementById("ble_processed").innerText = data.ble.processed + " / " + data.ble.total;
+                document.getElementById("ble_file").innerText = data.ble.source_file;
+                document.getElementById("ble_actual").innerText = data.ble.actual_environment;
+                document.getElementById("ble_packet_count").innerText = data.ble.packet_count;
+                document.getElementById("ble_rssi").innerText = data.ble.avg_rssi + " dBm";
+                document.getElementById("ble_rssi_range").innerText = data.ble.rssi_range;
+            }
+
+        } catch (error) {
+            console.log("Live update error:", error);
+        }
+    }
+
+    updateLiveData();
+    setInterval(updateLiveData, 2000);
+</script>
+
+</body>
+</html>
